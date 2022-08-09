@@ -22,7 +22,7 @@ function NewsBox(){
 
 
 
-
+// UseEffect runs on page load and on state change, this will only run the function getStories if topStoryIds is populated
 
     useEffect(() => {
     if(topStoryIds.length > 0)
