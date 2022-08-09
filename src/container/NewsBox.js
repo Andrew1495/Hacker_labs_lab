@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import NewsList from '../components/NewsList';
+import Search from '../components/Search';
 
 
 function NewsBox(){
@@ -7,6 +8,7 @@ function NewsBox(){
     const [storyIds, setStoryIds] = useState([]);
     const [topStoryIds, setTopStoryIds] = useState([]);
     const [stories, setStories] = useState([]);
+    const [searchedStories, setSearchStories] = useState([]);
 
     useEffect(() => {
         fetch("https://hacker-news.firebaseio.com/v0/topstories.json")
@@ -38,10 +40,25 @@ const getStrories =((topStoryIds) =>{
         Promise.all(story)
         .then((data) => setStories(data))
         });
+
+
+const handleSearch = (userInput) => {
+    const userSearch = userInput.toLowerCase();
+    const searching = stories.filter((story) => {
+    return story.title.toLowerCase().indexOf(userSearch) > -1;
+    });
+    setSearchStories(searching);
+}
+
+
+
+
+
 if(stories.length !==0 ){
     return(
     <div>
-        {stories.length !==0 ? <NewsList news={stories}></NewsList> :null}
+        <Search handleSearch={handleSearch} />
+        {stories.length !==0 ? <NewsList news={searchedStories}></NewsList> :null}
     </div>
     )}
 }
